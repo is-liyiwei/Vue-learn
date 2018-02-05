@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>example1</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="vue.js"></script>
+<script>
+// 这个vue文件在最后面8470行加入了window.strats = strats;这一段，这样就可以使用这个方法了
+console.log(strats)
+
+var parent = {
+  el: '#app'
+}
+
+var child = {
+  el: '#demo'
+}
+
+var testData1 = strats.el(parent.el, child.el);
+
+console.log(testData1)
+
+// 这里会抱一个错误，但是无妨，最后还是会执行defaultStrat(parent, child)这个方法，
+// 最后返回的是后者的值，这个是默认的合并策略
+// 默认策略就是：子组件的选项不存在，才会使用父组件的选项，如果子组件的选项存在，使用子组件自身的。
+</script>
+</html>

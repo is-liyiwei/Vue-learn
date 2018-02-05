@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>example3</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="vue.js"></script>
+<script>
+
+var parent = {
+  watch: {
+    parentWatch: function (val) {
+      return 111
+    },
+    publicWatch: function (val) {
+      return 333
+    }
+  }
+}
+
+var child = {
+  watch: {
+    childWatch: function (val) {
+      return 222
+    },
+    publicWatch: function (val) {
+      return 333
+    }
+  }
+}
+
+var testData1 = strats.watch(parent.watch, child.watch);
+
+console.log(testData1)
+
+// 这里还是引用大神的分析
+
+// 注释里说了：watchers不应该重写，应该保存在一个数组里。这就是watch数据合并的策略核心。
+
+// 1.定义ret并让ret获得parentVal的所有属性。
+
+// 2.遍历 childVal的所有属性，如果ret（即parentVal）中也有的话，就把ret的属性值弄成一个数组，把childVal的同名属性值放在ret同名值得后面。如果不存在就把childVal弄成一个数组。
+
+// 3.最后都将数组的值赋值给ret，拓展ret的属性和属性值。
+
+// 这个策略其实就是，子组件、父组件都存在的时候，把watch相同值得方法放在一个数组里，父前子后。
+</script>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+var toString = Object.prototype.toString;
+var OBJECT_STRING = '[object Object]';
+
+function isPlainObject (obj) {
+  return toString.call(obj) === OBJECT_STRING
+}
+
+console.log(isPlainObject([1,2,3]))
+
+console.log(isPlainObject({name: 'zhang san'}))
+
+console.log(isPlainObject('hahaha 我是字符串'))
+
+// 方法很好理解，就是判断是否为object类型
+
+</script>
+</html>

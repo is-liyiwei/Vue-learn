@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+
+<script id="my-tel">
+  `<h1 style="color: blue;">{{msg}}</h1>`
+</script>
+
+<script>
+
+function cached (fn) {
+  var cache = Object.create(null);
+  return function cachedFn (str) {
+    var hit = cache[str];
+    return hit || (cache[str] = fn(str))
+  }
+}
+
+function query (el) {
+  if (typeof el === 'string') {
+    var selector = el;
+    el = document.querySelector(el);
+    if (!el) {
+      "development" !== 'production' && warn(
+        'Cannot find element: ' + selector
+      );
+      return document.createElement('div')
+    }
+  }
+  return el
+}
+
+const idToTemplate = cached(id => {
+  const el = query(id)
+  return el && el.innerHTML
+})
+
+var testData1 = idToTemplate("#my-tel");
+
+console.log(testData1)
+
+// 这里其实就是获取标签内的字符串模板的方法
+// cached是一个缓存方法，里面定义了一个闭包对象cached作为缓存，这样第一次获取后，若再次使用这个
+// template则不需要操作dom去获取了
+</script>
+</html>

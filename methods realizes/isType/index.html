@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>isType</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+/**
+ * Use function string name to check built-in types,
+ * because a simple equality check will fail when running
+ * across different vms / iframes.
+ */
+function getType (fn) {
+  var match = fn && fn.toString().match(/^\s*function (\w+)/);
+  return match && match[1]
+}
+
+function isType (type, fn) {
+  if (!Array.isArray(fn)) {
+    return getType(fn) === getType(type)
+  }
+  for (var i = 0, len = fn.length; i < len; i++) {
+    if (getType(fn[i]) === getType(type)) {
+      return true
+    }
+  }
+  /* istanbul ignore next */
+  return false
+}
+
+var a = {
+  type: Number
+}
+
+var b = {
+  type: Boolean
+}
+
+var testData1 = isType(Boolean, a.type);
+var testData2 = isType(Boolean, b.type);
+
+console.log(testData1);
+console.log(testData2);
+
+// 这里还可以测试很多值，比如Array，Function等等，大概思路就是检测类型
+
+</script>
+</html>

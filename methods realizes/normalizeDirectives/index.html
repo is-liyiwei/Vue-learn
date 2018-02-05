@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>normalizeDirectives</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+
+/**
+ * Normalize raw function directives into object format.
+ */
+function normalizeDirectives (options) {
+  var dirs = options.directives;
+  if (dirs) {
+    for (var key in dirs) {
+      var def = dirs[key];
+      if (typeof def === 'function') {
+        dirs[key] = { bind: def, update: def };
+      }
+    }
+  }
+}
+
+
+var options_one = {
+  el: '#app',
+  data () {
+    return {
+      msg: 'hello world'
+    }
+  },
+  directives: {
+    focus: {
+      bind: function (el, binding, vnode) {
+        console.log(el)
+        console.log(binding)
+        console.log(vnode)
+      },
+      // 指令的定义
+      inserted: function (el) {
+        el.focus();
+        el.value = 'default';
+        console.log('自动获取焦点，且设置value值');
+      }
+    }
+  }
+}
+
+normalizeDirectives(options_one);
+
+console.log(options_one)
+
+
+var options_two = {
+  el: '#app',
+  data () {
+    return {
+      msg: 'hello world'
+    }
+  },
+  directives: {
+    colorSwatch: function (el, binding, vnode) {
+      console.log('order methods')
+    }
+  }
+}
+
+normalizeDirectives(options_two);
+
+console.log(options_two)
+
+// 这里举了两个简单的例子，也是比较常用的形式
+// 控制台打印出来两个对比，会发现第二种方法最后会被标准化成第一种的形式
+</script>
+</html>

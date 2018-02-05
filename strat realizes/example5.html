@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>example5</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="vue.js"></script>
+<script>
+
+var parent = {
+  props: {
+    name: {
+      default: 'zhang san'
+    },
+    age: {
+      type: Number,
+      default: 18
+    }
+  }
+}
+
+var child = {
+  props: {
+    name: {
+      default: 'li si'
+    },
+    sex: {
+      type: String,
+      default: 'man'
+    }
+  }
+}
+
+var testData1 = strats.methods(parent.props, child.props);
+
+console.log(testData1)
+
+// 这种合并策略的特点就是子会覆盖父。
+
+// 1.先将parentVal的所有属性扩展给res
+
+// 2.再将childVal的所有属性扩展给res。此时，若是parentVal和childVal拥有同名属性的话，子的属性就会覆
+// 盖父的。也就是同名方法只会执行子的。
+
+</script>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+// const HTMLElement_dev = document.createElement('nav')
+
+// console.log(HTMLElement_dev.constructor)
+
+// console.log(HTMLElement_dev.constructor === window.HTMLUnknownElement)
+// console.log(HTMLElement_dev.constructor === window.HTMLElement)
+// console.log(HTMLElement_dev.toString())
+// console.log(/HTMLUnknownElement/.test(HTMLElement_dev.toString()))
+
+// const HTMLUnknownElement_dev = document.createElement('unKnownNav')
+
+// console.log(HTMLUnknownElement_dev.constructor)
+
+// console.log(HTMLUnknownElement_dev.constructor === window.HTMLUnknownElement)
+// console.log(HTMLUnknownElement_dev.constructor === window.HTMLElement)
+// console.log(HTMLUnknownElement_dev.toString())
+// console.log(/HTMLUnknownElement/.test(HTMLUnknownElement_dev.toString()))
+
+const inBrowser = typeof window !== 'undefined'
+
+
+const unknownElementCache = Object.create(null)
+function isUnknownElement (tag) {
+  /* istanbul ignore if */
+  if (!inBrowser) {
+    return true
+  }
+  // if (isReservedTag(tag)) {
+  //   return false
+  // }
+  tag = tag.toLowerCase()
+  /* istanbul ignore if */
+  if (unknownElementCache[tag] != null) {
+    return unknownElementCache[tag]
+  }
+  const el = document.createElement(tag)
+  if (tag.indexOf('-') > -1) {
+    // http://stackoverflow.com/a/28210364/1070244
+    return (unknownElementCache[tag] = (
+      el.constructor === window.HTMLUnknownElement ||
+      el.constructor === window.HTMLElement
+    ))
+  } else {
+    return (unknownElementCache[tag] = /HTMLUnknownElement/.test(el.toString()))
+  }
+}
+
+var testData1 = isUnknownElement('nav');    // html原有的，是已知的
+var testData2 = isUnknownElement('myNav');    // html没有的，是未知的
+var testData3 = isUnknownElement('my-order-nav');    // html没有的，是未知的
+var testData4 = isUnknownElement('myNav');    // html没有的，是未知的
+
+console.log(testData1)    // false
+console.log(testData2)    // true
+console.log(testData3)    // true
+console.log(testData4)    // true
+</script>
+</html>

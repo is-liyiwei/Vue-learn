@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>parsePath</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+/**
+ * Parse simple path.
+ */
+const bailRE = /[^\w.$]/
+function parsePath (path) {
+  if (bailRE.test(path)) {
+    return
+  } else {
+    const segments = path.split('.')
+    return function (obj) {
+      for (let i = 0; i < segments.length; i++) {
+        if (!obj) return
+        obj = obj[segments[i]]
+      }
+      return obj
+    }
+  }
+}
+
+console.log(bailRE.test('[a.f]'))
+console.log(bailRE.test('a.f.'))
+
+
+var testData1 = parsePath('a.f')()
+
+console.log(testData1)
+
+</script>
+</html>

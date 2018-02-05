@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+function makeMap (
+  str,
+  expectsLowerCase
+) {
+  var map = Object.create(null);
+  var list = str.split(',');
+  for (var i = 0; i < list.length; i++) {
+    map[list[i]] = true;
+  }
+  return expectsLowerCase
+    ? function (val) { return map[val.toLowerCase()]; }
+    : function (val) { return map[val]; }
+}
+
+const acceptValue = makeMap('input,textarea,option,select');
+
+var mustUseProp = function (tag, attr) {
+  return (
+    (attr === 'value' && acceptValue(tag)) ||
+    (attr === 'selected' && tag === 'option') ||
+    (attr === 'checked' && tag === 'input') ||
+    (attr === 'muted' && tag === 'video')
+  )
+};
+
+var testData1 = mustUseProp('input', 'checked')
+var testData2 = mustUseProp('video', 'checked')
+
+console.log(testData1)
+console.log(testData2)
+
+</script>
+</html>

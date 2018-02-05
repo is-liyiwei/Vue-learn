@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>example4</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="vue.js"></script>
+<script>
+
+var parent = {
+  methods: {
+    parentMethods: function (val) {
+      return 111
+    },
+    publicMethods: function (val) {
+      return 333
+    }
+  }
+}
+
+var child = {
+  methods: {
+    childMethods: function (val) {
+      return 222
+    },
+    publicMethods: function (val) {
+      return 333
+    }
+  }
+}
+
+var testData1 = strats.methods(parent.methods, child.methods);
+
+console.log(testData1)
+
+// 这种合并策略的特点就是子会覆盖父。
+
+// props和computed也是采用这个合并策略
+
+// 1.先将parentVal的所有属性扩展给res
+
+// 2.再将childVal的所有属性扩展给res。此时，若是parentVal和childVal拥有同名属性的话，子的属性就会覆
+// 盖父的。也就是同名方法只会执行子的。
+
+</script>
+</html>

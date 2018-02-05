@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>example2</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="vue.js"></script>
+<script>
+
+var parent = {
+  created () {
+    console.log('created from parent')
+  }
+}
+
+var child = {
+  created () {
+    console.log('created from child')
+  }
+}
+
+var testData1 = strats.created([parent.created], child.created);
+
+console.log(testData1)
+console.log(testData1[0])
+console.log(testData1[1])
+
+// 其他生命周期的合并策略一样的都是用mergeHook这个方法合并，这里的第一个参数是一个数组，
+// Vue内部可能自己转换，这里我们需要手动转换，这里引入大神分析的结果：
+
+// 用人话总结这个合并规则就是：只有父时返回父，只有子时返回数组类型的子。父、子都存在时，
+// 将子添加在父的后面返回组合而成的数组。这也是父子均有钩子函数的时候，先执行父的后执行子的的原因
+</script>
+</html>

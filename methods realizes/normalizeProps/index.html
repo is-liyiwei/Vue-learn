@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+function cached (fn) {
+  var cache = Object.create(null);
+  return function cachedFn (str) {
+    var hit = cache[str];
+    return hit || (cache[str] = fn(str))
+  }
+}
+
+
+/**
+ * Camelize a hyphen-delmited string.
+ */
+var camelizeRE = /-(\w)/g;
+var camelize = cached(function (str) {
+  return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; })
+});
+
+
+var toString = Object.prototype.toString;
+var OBJECT_STRING = '[object Object]';
+
+function isPlainObject (obj) {
+  return toString.call(obj) === OBJECT_STRING
+}
+
+
+// ------------------------主角在下面，上面是辅助的方法-----------------------------
+
+
+
+/**
+ * Ensure all props option syntax are normalized into the
+ * Object-based format.
+ */
+function normalizeProps (options) {
+  var props = options.props;
+  if (!props) { return }
+  var res = {};
+  var i, val, name;
+  if (Array.isArray(props)) {
+    i = props.length;
+    while (i--) {
+      val = props[i];
+      if (typeof val === 'string') {
+        name = camelize(val);
+        res[name] = { type: null };
+      } else {
+        warn('props must be strings when using array syntax.');
+      }
+    }
+  } else if (isPlainObject(props)) {
+    for (var key in props) {
+      val = props[key];
+      name = camelize(key);
+      res[name] = isPlainObject(val)
+        ? val
+        : { type: val };
+    }
+  }
+  options.props = res;
+}
+
+var options_one = {
+  el: '#app',
+  data () {
+    return {
+      msg: 'hello world'
+    }
+  },
+  props: ['myPropData', 'myPropData-one', '_my-propsData-two'],
+}
+
+normalizeProps(options_one)
+
+console.log(options_one)
+
+
+var options_two = {
+  el: '#app',
+  data () {
+    return {
+      msg: 'hello world'
+    }
+  },
+  props: {
+    name: {
+      type: String,
+      default: 'zhang san',
+      required: true
+    },
+    age: {
+      type: Number,
+      validator: function (value) {
+        return value > 0
+      }
+    }
+  }
+}
+
+normalizeProps(options_two)
+
+console.log(options_two)
+</script>
+</html>

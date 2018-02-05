@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>camelize</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+function cached (fn) {
+  var cache = Object.create(null);
+  return function cachedFn (str) {
+    var hit = cache[str];
+    return hit || (cache[str] = fn(str))
+  }
+}
+
+// ----------------------------------------------------------------------
+
+
+
+
+/**
+ * Camelize a hyphen-delmited string.
+ */
+var camelizeRE = /-(\w)/g;
+var camelize = cached(function (str) {
+  return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; })
+});
+
+var testData1 = camelize('my-name-is-Li');
+var testData2 = camelize('_myName-is-Li');
+
+console.log(testData1)  // myNameIsLi
+console.log(testData2)  // _myNameIsLi
+</script>
+</html>

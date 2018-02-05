@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>example6</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="vue.js"></script>
+<script>
+
+var parent = {
+  filters: {
+    add: function (parentVal) {
+      return value + 1
+    },
+    publicFilter: function (parentVal) {
+      return 'public fn parent'
+    }
+  }
+}
+
+var child = {
+  filters: {
+    subtract: function (childVal) {
+      return value - 1
+    },
+    publicFilter: function (childVal) {
+      return 'public fn child'
+    }
+  }
+}
+
+var testData1 = strats.filters(parent.filters, child.filters);
+
+console.log(testData1)
+
+console.log(testData1.__proto__)
+
+// 这个合并策略的核心就是：将childVal的全部属性通过原型委托在parentVal上
+// parentVal成为了childVal的原型对象。
+
+// 所以需要查找某个component、directive、filter，首先会在childVal中查找，如果没有就在
+// 其原型对象上查找。
+
+// 即子组件有就用子组件的，子组件没有向上在父组件中寻找。
+</script>
+</html>

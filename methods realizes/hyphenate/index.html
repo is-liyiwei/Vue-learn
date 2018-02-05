@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>hyphenate</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+function cached (fn) {
+  var cache = Object.create(null);
+  return function cachedFn (str) {
+    var hit = cache[str];
+    return hit || (cache[str] = fn(str))
+  }
+}
+
+// ----------------辅助测试用的，主角在下面------------------------------
+
+/**
+ * Hyphenate a camelCase string.
+ */
+var hyphenateRE = /([^-])([A-Z])/g;
+var hyphenate = cached(function (str) {
+  return str
+    .replace(hyphenateRE, '$1-$2')
+    .replace(hyphenateRE, '$1-$2')
+    .toLowerCase()
+});
+
+var testData1 = hyphenate('abcDEF');
+var testData2 = hyphenate('abc-DEF');
+var testData3 = hyphenate('abc-D-E-F');
+
+var testData4 = hyphenate('abc-Dhjk-Ebnm-F78');
+
+console.log(testData1)
+console.log(testData2)
+console.log(testData3)
+
+console.log(testData4)
+
+</script>
+</html>

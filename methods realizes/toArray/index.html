@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+function toArray (list, start) {
+  start = start || 0;
+  var i = list.length - start;
+  var ret = new Array(i);
+  while (i--) {
+    ret[i] = list[i + start];
+  }
+  return ret
+}
+
+function test () {
+
+  // 重点在第二个参数，改成2看看即可明白
+  const args = toArray(arguments, 1)
+
+  console.log(args)
+}
+
+var MyPlugin = {};
+
+MyPlugin.install = function (Vue, options) {
+  // 这里是插件的逻辑
+}
+
+test(MyPlugin) // 一般这个是我们常用的注册插件方法，后面带参数的比较少用
+
+test(MyPlugin, {someParams: true}, {name: 'liyiwei'})
+
+test(MyPlugin, 2, 3)
+
+test('MyPlugin', [2,3], 6)
+
+</script>
+</html>

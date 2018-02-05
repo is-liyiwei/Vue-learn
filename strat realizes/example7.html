@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>example6</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="vue.js"></script>
+<script>
+
+var parent = {
+  data () {
+    return {
+      msg: 'msg from parent',
+      age: 18
+    }
+  }
+}
+
+var child = {
+  data () {
+    return {
+      msg: 'msg from child',
+      sex: 'man'
+    }
+  }
+}
+
+var testData1 = strats.data(parent.data, child.data);
+
+console.log(testData1)  // 这个才是返回值，返回的是一个函数
+
+console.log(testData1())  // 这个这里执行，为了看下内容是什么
+
+// 用人话总结这个合并规则就是：
+
+// 1.如果from【childVal】中的某个属性to【parentVal】中也有，保留to中的，什么也不做
+
+// 2.如果to中没有，将这个属性添加到to中
+
+// 3.如果to和from中的某个属性值都是对象，则递归调用，进行深度合并。
+
+// 无论vm存在不存在mergeDataOrFn最终都会调用mergeData函数，将parentVal和childVal合并成最终值。那么接下来看mergeDataOrFn中对parentVal和childVal做了什么处理。
+
+
+// 一点疑问，这里的第1条好像证明不了，因为这里的msg会被child合并了，不知道是这个例子有问题还是其他原因
+
+</script>
+</html>
